@@ -341,9 +341,9 @@ HAVING SUM({pages_kb}) >= 1024
 OPTION( RECOMPILE );'
 
 IF CAST(LEFT(CAST(SERVERPROPERTY('productversion') as varchar), 2) AS INT) > 10 -- SQL Server 2008 Compat
-    SET @SQL = REPLACE(REPLACE(@SQL,'{pages_kb}','mc.pages_kb'),'"','''')
+	SET @SQL = REPLACE(REPLACE(@SQL,'{pages_kb}','mc.pages_kb + mc.awe_allocated_kb'),'"','''')
 ELSE
-    SET @SQL = REPLACE(REPLACE(@SQL,'{pages_kb}','mc.single_pages_kb + mc.multi_pages_kb'),'"','''')
+    SET @SQL = REPLACE(REPLACE(@SQL,'{pages_kb}','mc.single_pages_kb + mc.multi_pages_kb + mc.awe_allocated_kb'),'"','''')
 
 EXEC(@SQL)
 `
